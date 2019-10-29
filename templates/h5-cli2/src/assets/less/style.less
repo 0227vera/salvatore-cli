@@ -1,0 +1,120 @@
+@import './variable.less';
+// 统计页
+// @import './statistics.less';
+.app-base {
+  background: @app-base-bg;
+  overflow: hidden;
+}
+
+.header.vux-header {
+  background: @header-bg;
+  color: @header-color;
+  .vux-header {
+    &-left,
+    &-right,
+    &-title {
+      color: @header-color;
+      a {
+        color: @header-color;
+      }
+      .left-arrow:before {
+        border-color: @header-color;
+      }
+    }
+  }
+}
+
+.app-content {
+  position: absolute;
+  top: 12vw;
+  left: 0;
+  right: 0;
+  bottom: 12vw;
+}
+
+.app-header {
+  &-close {
+    margin-left: 20px;
+  }
+}
+
+.white-block {
+  background: #fff;
+  margin-bottom: 20px;
+  &-header {
+    padding: 20px;
+  }
+  &-icon {
+    color: @medal-color;
+    font-size: @base-size * 2.5;
+    line-height: @base-size * 4;
+    margin-right: 20px;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(rgba(234, 101, 10, 1)), to(rgba(246, 199, 156, 1)));
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+  }
+  &-tips {
+    float: right;
+    font-size: @min-size;
+    color: @font-color-lighter;
+    line-height: @base-size * 4
+  }
+}
+
+// progress
+.progress-wrap {
+  background: @progress-bg;
+  border-radius: 10px;
+  overflow: hidden;
+  .progress {
+    background: @theme-color;
+    height: 100%;
+  }
+}
+
+// footer
+.app-footer.weui-tabbar {
+  background: @header-bg;
+  .weui-bar__item_on {
+    .footer-icon {
+      color: @theme-color;
+    }
+    .footer-item {
+      color: @theme-color;
+    }
+  }
+  .footer-icon {
+    font-size: @min-size * 1.8;
+  }
+}
+
+// router animation
+// todo: 优化动画效果
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
+}
+
+.child-view {
+  position: absolute;
+  transition: all .5s cubic-bezier(.55, 0, .1, 1);
+}
+
+.slide-left-enter,
+.slide-right-leave-active {
+  opacity: 0;
+  -webkit-transform: translate(30px, 0);
+  transform: translate(30px, 0);
+}
+
+.slide-left-leave-active,
+.slide-right-enter {
+  opacity: 0;
+  -webkit-transform: translate(-30px, 0);
+  transform: translate(-30px, 0);
+}
