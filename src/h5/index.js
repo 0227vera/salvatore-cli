@@ -97,6 +97,7 @@ module.exports = async function () {
     if (answer.isAddDocs) {
       copy(path.resolve(__dirname, '../../templates/docs'), dir)
     }
+    console.log('-------------->', dir)
     spinner.stop()
     console.log(chalk.cyan(`\n 项目初始化完成.\n 位置 ${dir}`))
   } catch (e) {

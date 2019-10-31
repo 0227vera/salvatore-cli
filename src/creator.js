@@ -13,7 +13,7 @@ template.defaults.rules.shift() // 移除ejs支持
  */
 async function createProject (projectName, projectPath) {
   projectPath = projectPath || process.env.PWD
-  let dir = await fse.ensureDir(path.resolve(__dirname, projectName))
+  let dir = await fse.ensureDir(projectPath + '/' + projectName)
   return dir
 }
 
