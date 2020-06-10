@@ -29,7 +29,7 @@ let questions = [
       return true
     },
     default: function () {
-      return ''
+      return 'h5-template'
     }
   },
   {
@@ -37,16 +37,16 @@ let questions = [
     name: 'description',
     message: '请输入项目描述',
     default: function () {
-      return 'H5标准模板项目'
+      return 'h5开发模版'
     }
   },
   {
     type: 'list',
     name: 'langType',
-    message: '请选择使用ts/js编写',
+    message: '请选择使用vue/react编写',
     choices: [
-      { name: 'typeScript', value: 1 },
-      { name: 'javaScript', value: 2 }
+      { name: 'vue', value: 1 },
+      { name: 'react', value: 2 }
     ],
     default: 0 // 默认是下标为0的选项
   },
@@ -55,7 +55,7 @@ let questions = [
     name: 'projectContext',
     message: '请输入项目上下文',
     default: function () {
-      return '/template'
+      return '/context'
     }
   },
   {
@@ -63,7 +63,7 @@ let questions = [
     name: 'projectProxyUrl',
     message: '请输入项目需要代理到的服务器',
     default: function () {
-      return 'http://api.lezhixing.com.cn/mock/295/'
+      return 'http://api.xxx.com/mock/xxx/'
     }
   },
   {
@@ -141,13 +141,13 @@ module.exports = async function () {
   spinner.start()
   answer.username = await getUsername()
   let dir = await createProject(answer.projectName)
-  let type = answer.langType === 1 ? 'ts' : 'js'
+  let type = answer.langType === 1 ? 'vue' : 'react'
   await copyTemplate('h5-' + type, dir)
   await rewriteTemplate(answer, [
     path.resolve(dir, './package.json'),
     path.resolve(dir, './vue.config.js'),
     path.resolve(dir, './.env.temp'),
-    path.resolve(dir, './src/services/services.' + type)
+    path.resolve(dir, './src/services/services.' + (answer.langType === 1 ? 'js' : 'ts'))
   ])
   await execCmd('mv ' + path.resolve(dir, './.env.temp') + ' ' + path.resolve(dir, './.env'))
   spinner.stop()

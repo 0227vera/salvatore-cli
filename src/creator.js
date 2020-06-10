@@ -32,20 +32,9 @@ function ensureDir (projectName, projectPath) {
 }
 
 /**
- * 复制模板
- * @param {string} type 项目类型 h5-js/ts
- * @param {*} target 复制地址 远程的git的项目地址
- */
-// async function copyTemplate (type, target) {
-//   let dir = path.resolve(__dirname, '../templates', type)
-//   let error = await copy(dir, target)
-//   return error
-// }
-
-/**
  *
  * 复制远程模板
- * @param {*} type
+ * @param {*} type  h5-vue  h5-react web-vue web-react node applet
  * @param {*} target
  * @returns
  */
@@ -60,7 +49,8 @@ async function copyTemplate (type, target) {
  */
 function copyGitTemplace (type, target) {
   console.log(chalk.cyan('\n 开始拉取远程模板\n'))
-  const url = 'gitlab:https://git.iflytek.com:LZX_lzxst_cli_templates/' + type // 模板组地址
+  const url = 'https://github.com:0227vera/' + type + '#master' // 模板的git地址
+  console.log('------>', url)
   return new Promise((resolve, reject) => {
     download(url, target, { clone: true }, function (err) {
       if (!err) {
