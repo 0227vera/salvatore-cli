@@ -10,7 +10,11 @@ npm install -g nic-cli
 nic init h5
 ```
 
-h5的项目：vue+vuex+vue-router+axios+vant
+h5的项目：
+
+1. `vue`: `vue + vuex + vue-router + axios + vant`
+
+2. `react`: `react + react-router + redux + axios + ant-design-mobild`
 
 ### WEB端项目
 
@@ -18,7 +22,23 @@ h5的项目：vue+vuex+vue-router+axios+vant
 nic init web
 ```
 
-web端项目：vue+vuex+vue-router+axios+element-ui
+web端项目：
+
+1. `vue`: `vue + vuex + vue-router + axios + element-ui`
+
+2. `react`: `react + react-router + redux + axios + ant-design`
+
+### node项目
+
+```node
+nic init node
+```
+
+`node`: `mongodb + express + http + fs + ……`
+
+### 开发注意
+
+`#!/usr/bin/env node` 表示node运行环境；在weindows上开发，请使用`npm link`到系统模块可以使用命令，mac上直接`npm run dev`即可
 
 ### 问题
 
