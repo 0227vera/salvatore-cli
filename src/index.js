@@ -12,7 +12,7 @@ program.command('init <type>').action(function (type) {
   handleType(type)
 })
 
-function handleType (type) { // 根据不同的类型选择不同的模板
+function handleType (type) {
   let isExsit = fs.existsSync(path.resolve(__dirname, `./${type}/index.js`))
   if (!isExsit) {
     require('./help.js')()

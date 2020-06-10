@@ -1,8 +1,10 @@
 let fse = require('fs-extra')
 let fs = require('fs')
 let path = require('path')
+let download = require('download-git-repo')
 let template = require('art-template')
 let { exec } = require('child_process')
+const chalk = require('chalk')
 const username = require('username')
 template.defaults.rules.shift() // 移除ejs支持
 
@@ -31,14 +33,46 @@ function ensureDir (projectName, projectPath) {
 
 /**
  * 复制模板
- * @param {string} type 项目类型
- * @param {*} target 复制地址
+ * @param {string} type 项目类型 h5-js/ts
+ * @param {*} target 复制地址 远程的git的项目地址
+ */
+// async function copyTemplate (type, target) {
+//   let dir = path.resolve(__dirname, '../templates', type)
+//   let error = await copy(dir, target)
+//   return error
+// }
+
+/**
+ *
+ * 复制远程模板
+ * @param {*} type
+ * @param {*} target
+ * @returns
  */
 async function copyTemplate (type, target) {
-  let dir = path.resolve(__dirname, '../templates', type)
-  let error = await copy(dir, target)
+  let error = await copyGitTemplace(type, target)
   return error
 }
+
+/**
+ * 复制远程模板
+ * type: 在之前已经拼成了和远程的name相同了
+ */
+function copyGitTemplace (type, target) {
+  console.log(chalk.cyan('\n 开始拉取远程模板\n'))
+  const url = 'gitlab:https://git.iflytek.com:LZX_lzxst_cli_templates/' + type // 模板组地址
+  return new Promise((resolve, reject) => {
+    download(url, target, { clone: true }, function (err) {
+      if (!err) {
+        console.log(chalk.cyan('\n 拉取远程模板完成\n'))
+      } else {
+        console.log(chalk.cyan('\n 拉取远程模板失败，查看是否拥有模板权限，或联系脚手架管理人员\n'))
+      }
+      err ? reject(err) : resolve(true)
+    })
+  })
+}
+
 /**
  * 复制项目.gitignore
  */
@@ -47,6 +81,10 @@ async function copyGitIgnore (target) {
   let error = await copy(file, path.resolve(target, '.gitignore'))
   return error
 }
+
+/**
+ * 远程模板复制
+ */
 
 /**
  * 复制一个文件或者文件夹到另一个目录

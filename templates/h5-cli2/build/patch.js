@@ -1,1 +1,0 @@
-require('lzxci-patch-tool')()
