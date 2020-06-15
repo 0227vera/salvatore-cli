@@ -10,8 +10,6 @@ npm install -g nic-cli
 nic init h5
 ```
 
-h5的项目：
-
 1. `vue`: `vue + vuex + vue-router + axios + vant`
 
 2. `react`: `react + react-router + redux + axios + ant-design-mobild`
@@ -22,15 +20,19 @@ h5的项目：
 nic init web
 ```
 
-web端项目：
-
 1. `vue`: `vue + vuex + vue-router + axios + element-ui`
 
 2. `react`: `react + react-router + redux + axios + ant-design`
 
+### 小程序项目
+
+```shell
+nic init applet
+```
+
 ### node项目
 
-```node
+```shell
 nic init node
 ```
 
