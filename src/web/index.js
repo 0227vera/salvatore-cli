@@ -1,10 +1,13 @@
 /**
- * 创建web应用模板
+ * 创建web模板
+ * inquirer: 交互使用的工具
+ * ora: 交互loading
  */
 let inquirer = require('inquirer')
 const ora = require('ora')
 const chalk = require('chalk')
 const path = require('path')
+
 let {
   rewriteTemplate,
   createProject,
@@ -21,12 +24,12 @@ let questions = [
     message: '请输入项目名称',
     validate: function (value) {
       if (ensureDir(value)) {
-        return '此目录已经存在'
+        return '此目录已经存在' // todo: 询问是删除还是重新创建一个新的
       }
       return true
     },
     default: function () {
-      return 'web'
+      return 'web-template'
     }
   },
   {
@@ -34,23 +37,23 @@ let questions = [
     name: 'description',
     message: '请输入项目描述',
     default: function () {
-      return 'WEB端vue模板项目'
+      return 'web开发模版'
     }
   },
   {
     type: 'list',
     name: 'langType',
-    message: '请选择使用ts/js编写',
+    message: '请选择使用vue/react编写',
     choices: [
-      { name: 'typeScript', value: 1 },
-      { name: 'javaScript', value: 2 }
+      { name: 'vue', value: 1 },
+      { name: 'react', value: 2 }
     ],
     default: 0 // 默认是下标为0的选项
   },
   {
     type: 'input',
     name: 'projectContext',
-    message: '请输入项目API上下文',
+    message: '请输入项目上下文',
     default: function () {
       return '/context'
     }
@@ -60,7 +63,7 @@ let questions = [
     name: 'projectProxyUrl',
     message: '请输入项目需要代理到的服务器',
     default: function () {
-      return 'http://api.lezhixing.com.cn/mock/295/'
+      return 'http://api.xxx.com/mock/xxx/'
     }
   },
   {
@@ -70,6 +73,7 @@ let questions = [
     default: true
   }
 ]
+
 let questions2 = [
   {
     type: 'input',
@@ -116,10 +120,11 @@ let questions2 = [
     name: 'sftpProjectPath',
     message: '请输入SFTP上传目录',
     default: function () {
-      return '/xxx/xxx/QIYEHAO_school_demo_V1.0.0_000_20200331_name_前端全部补丁'
+      return '/xxx/xxx/web_demo_V1.0.0_000_20200331_name_前端补丁'
     }
   }
 ]
+
 module.exports = async function () {
   let answer = await inquirer.prompt(questions)
   if (answer.isAddCI) {
@@ -132,24 +137,19 @@ module.exports = async function () {
     answer.password = 'xxx'
     answer.sftpProjectPath = '/xxx/xxx/QIYEHAO_school_demo_V1.0.0_000_20200331_name_前端全部补丁'
   }
+  const spinner = ora('building for production...\n')
+  spinner.start()
   answer.username = await getUsername()
-  const spinner = ora('building for production...')
-  spinner.start('初始化中...')
-  try {
-    let dir = await createProject(answer.projectName)
-    let type = answer.langType === 1 ? 'ts' : 'js'
-    await copyTemplate('web-' + type, dir)
-    await rewriteTemplate(answer, [
-      path.resolve(dir, './package.json'),
-      path.resolve(dir, './vue.config.js'),
-      path.resolve(dir, './.env.temp'),
-      path.resolve(dir, './src/services/services.' + type)
-    ])
-    await execCmd('mv ' + path.resolve(dir, './.env.temp') + ' ' + path.resolve(dir, './.env'))
-    spinner.stop()
-    console.log(chalk.cyan(`\n 项目初始化完成.\n 位置 ${dir}`))
-  } catch (e) {
-    spinner.stop()
-    console.log(e)
-  }
+  let dir = await createProject(answer.projectName)
+  let type = answer.langType === 1 ? 'vue' : 'react'
+  await copyTemplate('web-' + type, dir)
+  await rewriteTemplate(answer, [
+    path.resolve(dir, './package.json'),
+    path.resolve(dir, './vue.config.js'),
+    path.resolve(dir, './.env.temp'),
+    path.resolve(dir, './.env.development')
+  ])
+  await execCmd('mv ' + path.resolve(dir, './.env.temp') + ' ' + path.resolve(dir, './.env'))
+  spinner.stop()
+  console.log(chalk.cyan(`\n 项目初始化完成.\n 位置 ${dir}`))
 }
