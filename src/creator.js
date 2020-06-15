@@ -50,7 +50,6 @@ async function copyTemplate (type, target) {
 function copyGitTemplace (type, target) {
   console.log(chalk.cyan('\n 开始拉取远程模板\n'))
   const url = 'https://github.com:0227vera/' + type + '#master' // 模板的git地址
-  console.log('------>', url)
   return new Promise((resolve, reject) => {
     download(url, target, { clone: true }, function (err) {
       if (!err) {
