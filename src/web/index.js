@@ -143,12 +143,17 @@ module.exports = async function () {
   let dir = await createProject(answer.projectName)
   let type = answer.langType === 1 ? 'vue' : 'react'
   await copyTemplate('web-' + type, dir)
-  await rewriteTemplate(answer, [
+  let awiatArr = type === 'vue' ? [
     path.resolve(dir, './package.json'),
     path.resolve(dir, './vue.config.js'),
     path.resolve(dir, './.env.temp'),
     path.resolve(dir, './.env.development')
-  ])
+  ] : [
+    path.resolve(dir, './package.json'),
+    path.resolve(dir, './.env.temp'),
+    path.resolve(dir, './src/services/SetAxios.ts')
+  ]
+  await rewriteTemplate(answer, awiatArr)
   await execCmd('mv ' + path.resolve(dir, './.env.temp') + ' ' + path.resolve(dir, './.env'))
   spinner.stop()
   console.log(chalk.cyan(`\n 项目初始化完成.\n 位置 ${dir}`))
