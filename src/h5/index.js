@@ -65,7 +65,7 @@ let base = [
     default: function () {
       return 'http://api.xxx.com/mock/xxx/'
     }
-  },
+  }
 ]
 
 let vue = [
@@ -76,7 +76,6 @@ let vue = [
     default: true
   }
 ]
-
 
 let vueAddCi = [
   {
@@ -157,23 +156,20 @@ module.exports = async function () {
       answer.password = 'xxx'
       answer.sftpProjectPath = '/xxx/xxx/QIYEHAO_school_demo_V1.0.0_000_20200331_name_前端全部补丁'
     }
-  } else if (type === 'react'){
+  } else if (type === 'react') {
     // 如果选择的是react的模版，需要按照react中jenkins的配置走
     Object.assign(answer, await inquirer.prompt(react))
   }
 
-
-  
   const spinner = ora('building for production...\n')
   spinner.start()
   answer.username = await getUsername()
   let dir = await createProject(answer.projectName)
-  
   await copyTemplate('h5-' + type, dir)
   let awiatArr = type === 'vue' ? [
     path.resolve(dir, './package.json'),
     path.resolve(dir, './vue.config.js'),
-    path.resolve(dir, './.env.temp'), 
+    path.resolve(dir, './.env.temp'),
     path.resolve(dir, './src/services/services.js')
   ] : [
     path.resolve(dir, './package.json'),
