@@ -17,7 +17,7 @@ let {
   execCmd
 } = require('../creator')
 
-let questions = [
+let base = [
   {
     type: 'input',
     name: 'projectName',
@@ -53,7 +53,7 @@ let questions = [
   {
     type: 'input',
     name: 'projectContext',
-    message: '请输入项目上下文',
+    message: '请输入项目上下文(用于项目中的代理)',
     default: function () {
       return '/context'
     }
@@ -61,11 +61,14 @@ let questions = [
   {
     type: 'input',
     name: 'projectProxyUrl',
-    message: '请输入项目需要代理到的服务器',
+    message: '请输入项目需要代理到的服务器(后端电脑或者测试服务器)',
     default: function () {
       return 'http://api.xxx.com/mock/xxx/'
     }
   },
+]
+
+let vue = [
   {
     type: 'confirm',
     name: 'isAddCI',
@@ -74,7 +77,8 @@ let questions = [
   }
 ]
 
-let questions2 = [
+
+let vueAddCi = [
   {
     type: 'input',
     name: 'parkName',
@@ -125,36 +129,62 @@ let questions2 = [
   }
 ]
 
-module.exports = async function () {
-  let answer = await inquirer.prompt(questions)
-  if (answer.isAddCI) {
-    Object.assign(answer, await inquirer.prompt(questions2))
-  } else {
-    answer.parkName = 'app.front.tar.gz'
-    answer.host = '127.0.0.1'
-    answer.port = '80'
-    answer.username = 'xxxx'
-    answer.password = 'xxx'
-    answer.sftpProjectPath = '/xxx/xxx/QIYEHAO_school_demo_V1.0.0_000_20200331_name_前端全部补丁'
+let react = [
+  {
+    type: 'input',
+    name: 'productionAddress',
+    message: '请输入项目打包之后的地址：（前缀加上https://misc.sogou-inc.com/app/）',
+    default: function () {
+      return 'bi/xxx'
+    }
   }
+]
+
+module.exports = async function () {
+  let answer = await inquirer.prompt(base)
+  const type = answer.langType === 1 ? 'vue' : 'react'
+  // 根据基本信息的答案，判断接下来需要问的问题
+  if (type === 'vue') {
+    // 如果是需要vue的模版，需要考虑到原来的数据是否需要添加ci，不添加给默认值
+    Object.assign(answer, await inquirer.prompt(vue))
+    if (answer.isAddCI) {
+      Object.assign(answer, await inquirer.prompt(vueAddCi))
+    } else {
+      answer.parkName = 'app.front.tar.gz'
+      answer.host = '127.0.0.1'
+      answer.port = '80'
+      answer.username = 'xxxx'
+      answer.password = 'xxx'
+      answer.sftpProjectPath = '/xxx/xxx/QIYEHAO_school_demo_V1.0.0_000_20200331_name_前端全部补丁'
+    }
+  } else if (type === 'react'){
+    // 如果选择的是react的模版，需要按照react中jenkins的配置走
+    Object.assign(answer, await inquirer.prompt(react))
+  }
+
+
+  
   const spinner = ora('building for production...\n')
   spinner.start()
   answer.username = await getUsername()
   let dir = await createProject(answer.projectName)
-  let type = answer.langType === 1 ? 'vue' : 'react'
+  
   await copyTemplate('h5-' + type, dir)
   let awiatArr = type === 'vue' ? [
     path.resolve(dir, './package.json'),
     path.resolve(dir, './vue.config.js'),
-    path.resolve(dir, './.env.temp'),
+    path.resolve(dir, './.env.temp'), 
     path.resolve(dir, './src/services/services.js')
   ] : [
     path.resolve(dir, './package.json'),
-    path.resolve(dir, './.env.temp'),
-    path.resolve(dir, './src/services/SetAxios.ts')
+    path.resolve(dir, './src/services/commenPromise.js'),
+    path.resolve(dir, './devProxy.js'),
+    path.resolve(dir, './webpack.config.js')
   ]
   await rewriteTemplate(answer, awiatArr)
   await execCmd('mv ' + path.resolve(dir, './.env.temp') + ' ' + path.resolve(dir, './.env'))
   spinner.stop()
   console.log(chalk.cyan(`\n 项目初始化完成.\n 位置 ${dir}`))
+  console.log(chalk.cyan(`-----------------------------------------------------------`))
+  console.log(chalk.cyan(`\n cd ${answer.projectName} \n npm i\n npm start/npm run build`))
 }

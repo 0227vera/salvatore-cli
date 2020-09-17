@@ -12,7 +12,7 @@ nic init h5
 
 1. `vue`: `vue + vuex + vue-router + axios + vant`
 
-2. `react`: `react + react-router + redux + axios + ant-design-mobild`
+2. `react`: `react + react-router-dom + mobx(js) + axios + ant-design-mobild`
 
 ### WEB端项目
 
@@ -22,7 +22,7 @@ nic init web
 
 1. `vue`: `vue + vuex + vue-router + axios + element-ui`
 
-2. `react`: `react + react-router + redux + axios + ant-design`
+2. `react`: `react + react-router-dom + mobx(ts) + axios + ant-design`
 
 ### 小程序项目
 
