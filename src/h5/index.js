@@ -198,7 +198,5 @@ module.exports = async function() {
   console.log(
     chalk.cyan(`-----------------------------------------------------------`)
   );
-  console.log(
-    chalk.cyan(`\n cd ${answer.projectName} \n npm i\n npm start/npm run build`)
-  );
+  console.log(chalk.cyan(`\n cd ${answer.projectName} \n npm run init`));
 };
