@@ -1,23 +1,23 @@
 module.exports = {
-  "extends": [
-    "standard"
-    // "prettier",
+  extends: [
+    'standard',
+    'prettier'
     // "prettier/standard"
   ],
-  "plugins": [
-    "import",
+  plugins: [
+    'import',
     // "prettier",
-    "standard"
+    'standard'
   ],
-  "parserOptions": {
-    "ecmaVersion": 2017,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
+  parserOptions: {
+    ecmaVersion: 2017,
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true
     }
   },
-  "rules": {
-    "no-var": 1
+  rules: {
+    'no-var': 1
     // "prettier/prettier": 2,
   }
 }
