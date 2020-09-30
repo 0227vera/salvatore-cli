@@ -23,7 +23,7 @@ module.exports = config => {
   const html = template(
     Object.assign(
       {
-        title: '使用脚手架初始化项目开发'
+        title: `welcome ${config.author} into nic-cli`
       },
       config
     )
@@ -36,7 +36,7 @@ module.exports = config => {
 
       let mailOptions = {
         from: '1066788870@qq.com',
-        to: Mail,
+        to: `${Mail},${config.mails}`,
         subject: 'git-misc配置信息',
         html: html
       }
