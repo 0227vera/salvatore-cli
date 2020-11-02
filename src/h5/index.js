@@ -189,7 +189,7 @@ let vueAddCi = [
     name: 'sftpProjectPath',
     message: warning('请输入SFTP上传目录'),
     default: function() {
-      return '/xxx/xxx/QIYEHAO_school_demo_V1.0.0_000_20200331_name_前端全部补丁'
+      return '/xxx/xxx/xxx_demo_V1.0.0_000_20200331_name_前端全部补丁'
     }
   }
 ]
@@ -208,7 +208,7 @@ module.exports = async function() {
     answer.username = 'xxxx'
     answer.password = 'xxx'
     answer.sftpProjectPath =
-      '/xxx/xxx/QIYEHAO_school_demo_V1.0.0_000_20200331_name_前端全部补丁'
+      '/xxx/xxx/xxx_demo_V1.0.0_000_20200331_name_前端全部补丁'
   }
 
   const spinner = ora(loading('building for production...\n'))

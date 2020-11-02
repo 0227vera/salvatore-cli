@@ -135,7 +135,7 @@ module.exports = async function () {
     answer.port = '80'
     answer.username = 'xxxx'
     answer.password = 'xxx'
-    answer.sftpProjectPath = '/xxx/xxx/QIYEHAO_school_demo_V1.0.0_000_20200331_name_前端全部补丁'
+    answer.sftpProjectPath = '/xxx/xxx/xxx_demo_V1.0.0_000_20200331_name_前端全部补丁'
   }
   const spinner = ora('building for production...\n')
   spinner.start()
